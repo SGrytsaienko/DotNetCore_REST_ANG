@@ -17,7 +17,7 @@ namespace TourManagement.API.Controllers
         {
             _tourManagementRepository = tourManagementRepository;
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> GetTours()
         {
@@ -41,6 +41,6 @@ namespace TourManagement.API.Controllers
             var tour = Mapper.Map<Tour>(tourFromRepo);
 
             return Ok(tour);
-        }        
+        }
     }
 }

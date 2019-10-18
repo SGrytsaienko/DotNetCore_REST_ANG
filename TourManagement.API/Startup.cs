@@ -25,15 +25,33 @@ namespace TourManagement.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(setupAction =>
-            {
-                setupAction.ReturnHttpNotAcceptable = true;
-            })
-            .AddJsonOptions(options =>
-            {
-                options.SerializerSettings.DateParseHandling = DateParseHandling.DateTimeOffset;
-                options.SerializerSettings.ContractResolver =
-                    new CamelCasePropertyNamesContractResolver();
-            });
+                {
+                    setupAction.ReturnHttpNotAcceptable = true;
+
+                    var jsonOutputFormatter = setupAction.OutputFormatters
+                        .OfType<JsonOutputFormatter>().FirstOrDefault();
+
+                    if (jsonOutputFormatter != null)
+                    {
+                        // Adding custom media types to support
+                        jsonOutputFormatter.SupportedMediaTypes
+                            .Add("application/vnd.marvin.tour+json");
+                        jsonOutputFormatter.SupportedMediaTypes
+                            .Add("application/vnd.marvin.tourwithestimatedprofits+json");
+                        jsonOutputFormatter.SupportedMediaTypes
+                            .Add("application/vnd.marvin.tourwithshows+json");
+                        jsonOutputFormatter.SupportedMediaTypes
+                            .Add("application/vnd.marvin.tourwithestimatedprofitsandshows+json");
+                        jsonOutputFormatter.SupportedMediaTypes
+                            .Add("application/vnd.marvin.showcollection+json");
+                    }
+                })
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.DateParseHandling = DateParseHandling.DateTimeOffset;
+                    options.SerializerSettings.ContractResolver =
+                        new CamelCasePropertyNamesContractResolver();
+                });
 
             // Configure CORS so the API allows requests from JavaScript.  
             // For demo purposes, all origins/headers/methods are allowed.  
@@ -87,7 +105,7 @@ namespace TourManagement.API
                     .ForMember(d => d.Band, o => o.MapFrom(s => s.Band.Name));
                 config.CreateMap<Entities.Band, Dtos.Band>();
                 config.CreateMap<Entities.Manager, Dtos.Manager>();
-                config.CreateMap<Entities.Show, Dtos.Show>(); 
+                config.CreateMap<Entities.Show, Dtos.Show>();
             });
 
             // Enable CORS
