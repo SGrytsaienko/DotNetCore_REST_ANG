@@ -1,7 +1,7 @@
 namespace TourManagement.API.Dtos
 {
-    public class TourWIthManagerForCreation
+    public class TourWIthManagerForCreation : TourForCreation
     {
-        
+        public int ManagerId { get; set; }
     }
 }

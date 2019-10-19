@@ -28,12 +28,13 @@ namespace TourManagement.API
                 {
                     setupAction.ReturnHttpNotAcceptable = true;
 
+
+                    // custom media types
                     var jsonOutputFormatter = setupAction.OutputFormatters
                         .OfType<JsonOutputFormatter>().FirstOrDefault();
 
                     if (jsonOutputFormatter != null)
                     {
-                        // Adding custom media types to support
                         jsonOutputFormatter.SupportedMediaTypes
                             .Add("application/vnd.marvin.tour+json");
                         jsonOutputFormatter.SupportedMediaTypes
@@ -44,6 +45,23 @@ namespace TourManagement.API
                             .Add("application/vnd.marvin.tourwithestimatedprofitsandshows+json");
                         jsonOutputFormatter.SupportedMediaTypes
                             .Add("application/vnd.marvin.showcollection+json");
+                    }
+
+                    var jsonInputFormatter = setupAction.InputFormatters
+                        .OfType<JsonInputFormatter>().FirstOrDefault();
+
+                    if (jsonInputFormatter != null)
+                    {
+                        jsonInputFormatter.SupportedMediaTypes
+                            .Add("application/vnd.marvin.tourforcreation+json");
+                        jsonInputFormatter.SupportedMediaTypes
+                            .Add("application/vnd.marvin.tourwithmanagerforcreation+json");
+                        jsonInputFormatter.SupportedMediaTypes
+                            .Add("application/vnd.marvin.tourwithshowsforcreation+json");
+                        jsonInputFormatter.SupportedMediaTypes
+                            .Add("application/vnd.marvin.tourwithmanagerandshowsforcreation+json");
+                        jsonInputFormatter.SupportedMediaTypes
+                            .Add("application/vnd.marvin.showcollectionforcreation+json");
                     }
                 })
                 .AddJsonOptions(options =>
@@ -112,6 +130,9 @@ namespace TourManagement.API
                 config.CreateMap<Entities.Band, Dtos.Band>();
                 config.CreateMap<Entities.Manager, Dtos.Manager>();
                 config.CreateMap<Entities.Show, Dtos.Show>();
+
+                config.CreateMap<Dtos.TourForCreation, Entities.Tour>();
+                config.CreateMap<Dtos.TourWIthManagerForCreation, Entities.Tour>();
             });
 
             // Enable CORS
