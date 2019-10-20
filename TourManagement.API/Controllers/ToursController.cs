@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Primitives;
 using TourManagement.API.Dtos;
 using TourManagement.API.Helpers;
 using TourManagement.API.Services;
@@ -31,6 +33,11 @@ namespace TourManagement.API.Controllers
         [HttpGet("{tourId}")]
         public async Task<IActionResult> GetDefaultTour(int tourId)
         {
+            if (Request.Headers.TryGetValue("Accept", out StringValues values))
+            {
+                Debug.WriteLine($"Accept header(s): {string.Join(",", values)}");
+            }
+
             return await GetSpecificTour<Tour>(tourId);
         }
 
@@ -40,6 +47,11 @@ namespace TourManagement.API.Controllers
             new string[] {"application/vnd.marvin.tour+json"})]
         public async Task<IActionResult> GetTour(int tourId)
         {
+            if (Request.Headers.TryGetValue("Accept", out StringValues values))
+            {
+                Debug.WriteLine($"Accept header(s): {string.Join(",", values)}");
+            }
+
             return await GetSpecificTour<Tour>(tourId);
         }
 
@@ -49,6 +61,11 @@ namespace TourManagement.API.Controllers
             new string[] {"application/vnd.marvin.tourwithestimatedprofits+json"})]
         public async Task<IActionResult> GetTourWithEstimatedProfits(int tourId)
         {
+            if (Request.Headers.TryGetValue("Accept", out StringValues values))
+            {
+                Debug.WriteLine($"Accept header(s): {string.Join(",", values)}");
+            }
+
             return await GetSpecificTour<TourWithEstimatedProfits>(tourId);
         }
 
