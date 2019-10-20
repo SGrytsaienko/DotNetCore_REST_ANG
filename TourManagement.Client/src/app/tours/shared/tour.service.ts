@@ -8,6 +8,8 @@ import 'rxjs/add/operator/do';
 import {Tour} from './tour.model';
 import {BaseService} from '../../shared/base.service';
 import {TourWithEstimatedProfits} from './tour-with-estimated-profits.model';
+import {TourForCreation} from './tour-for-creation.model';
+import {TourWithManagerForCreation} from './tour-with-manager-for-creation.model';
 
 @Injectable()
 export class TourService extends BaseService {
@@ -20,12 +22,22 @@ export class TourService extends BaseService {
     return this.http.get<Tour[]>(`${this.apiUrl}/tours`);
   }
 
-  getTour(tourId: string): Observable<Tour> {
+  getTour(tourId: number): Observable<Tour> {
     return this.http.get<Tour>(`${this.apiUrl}/tours/${tourId}`);
   }
 
-  getTourWithEstimatedProfits(tourId: string): Observable<TourWithEstimatedProfits> {
+  getTourWithEstimatedProfits(tourId: number): Observable<TourWithEstimatedProfits> {
     return this.http.get<TourWithEstimatedProfits>(`${this.apiUrl}/tours/${tourId}`,
       {headers: {'Accept': 'application/vnd.marvin.tourwithestimatedprofits+json'}});
+  }
+
+  addTour(tourToAdd: TourForCreation): Observable<Tour> {
+    return this.http.post<Tour>(`${this.apiUrl}/tours`, tourToAdd,
+      {headers: {'Content-Type': 'application/vnd.marvin.tourforcreation+json'}});
+  }
+
+  addTourWithManager(tourToAdd: TourWithManagerForCreation): Observable<Tour> {
+    return this.http.post<Tour>(`${this.apiUrl}/tours`, tourToAdd,
+      {headers: {'Content-Type': 'application/vnd.marvin.tourwithmanagerforcreation+json'}});
   }
 }

@@ -6,6 +6,5 @@ namespace TourManagement.API.Dtos
     {
         public int TourId { get; set; }
         public string Band { get; set; }
-        public string Title { get; set; }
     }
 }

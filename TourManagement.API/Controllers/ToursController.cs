@@ -28,25 +28,10 @@ namespace TourManagement.API.Controllers
             return Ok(tours);
         }
 
-
-//        [HttpGet("{tourId}", Name = "GetTour")]
-        //        public async Task<IActionResult> GetTour(int tourId)
-        //        {
-        //            var tourFromRepo = await _tourManagementRepository.GetTour(tourId);
-        //
-        //            if (tourFromRepo == null)
-        //            {
-        //                return BadRequest();
-        //            }
-        //
-        //            var tour = Mapper.Map<Tour>(tourFromRepo);
-        //
-        //            return Ok(tour);
-        //        }
-
         [HttpGet("{tourId}", Name = "GetTour")]
         [RequestHeaderMatchesMediaType
-            ("Accept", new string[] {"application/vnd.marvin.tour+json"})]
+        ("Accept",
+            new string[] {"application/vnd.marvin.tour+json"})]
         public async Task<IActionResult> GetTour(int tourId)
         {
             return await GetSpecificTour<Tour>(tourId);
@@ -54,15 +39,20 @@ namespace TourManagement.API.Controllers
 
         [HttpGet("{tourId}")]
         [RequestHeaderMatchesMediaType
-            ("Accept", new string[] {"application/vnd.marvin.tourwithestimatedprofits+json"})]
+        ("Accept",
+            new string[] {"application/vnd.marvin.tourwithestimatedprofits+json"})]
         public async Task<IActionResult> GetTourWithEstimatedProfits(int tourId)
         {
             return await GetSpecificTour<TourWithEstimatedProfits>(tourId);
         }
 
         [HttpPost]
-        [RequestHeaderMatchesMediaType("Content-type",
-            new string[] {"application/vnd.marvin.tourforcreation+json"})]
+        [RequestHeaderMatchesMediaType("Content-Type",
+            new[]
+            {
+                "application/json",
+                "application/vnd.marvin.tourforcreation+json"
+            })]
         public async Task<IActionResult> AddTour([FromBody] TourForCreation tour)
         {
             if (tour == null)
@@ -70,23 +60,28 @@ namespace TourManagement.API.Controllers
                 return BadRequest();
             }
 
-            return await AddSpecificTourAction(tour);
+            // validation of the DTO happens here
+
+            return await AddSpecificTour(tour);
         }
 
-        [HttpGet("{tourId}")]
-        [RequestHeaderMatchesMediaType
-            ("Accept", new string[] {"application/vnd.marvin.tourwithestimatedprofits+json"})]
-        public async Task<IActionResult> AddTourWithManager([FromBody] TourWIthManagerForCreation tour)
+        [HttpPost]
+        [RequestHeaderMatchesMediaType("Content-Type",
+            new[] {"application/vnd.marvin.tourwithmanagerforcreation+json"})]
+        public async Task<IActionResult> AddTourWithManager(
+            [FromBody] TourWithManagerForCreation tour)
         {
             if (tour == null)
             {
                 return BadRequest();
             }
 
-            return await AddSpecificTourAction(tour);
+            // validation of the DTO happens here
+
+            return await AddSpecificTour(tour);
         }
 
-        private async Task<IActionResult> AddSpecificTourAction<T>(T tour) where T : class
+        private async Task<IActionResult> AddSpecificTour<T>(T tour) where T : class
         {
             var tourEntity = Mapper.Map<Entities.Tour>(tour);
 
@@ -106,7 +101,7 @@ namespace TourManagement.API.Controllers
         private async Task<IActionResult> GetSpecificTour<T>(int tourId) where T : class
         {
             var tourFromRepo = await _tourManagementRepository.GetTour(tourId);
-            
+
             if (tourFromRepo == null)
             {
                 return BadRequest();

@@ -15,9 +15,9 @@ import {Show} from '../shows/shared/show.model';
 export class TourDetailComponent implements OnInit, OnDestroy {
 
   private tour: any;
-  private tourId: string;
+  private tourId: number;
   private sub: Subscription;
-  private isAdmin: boolean = true;
+  private isAdmin: boolean = false;
 
   constructor(private masterDataService: MasterDataService,
               private tourService: TourService,

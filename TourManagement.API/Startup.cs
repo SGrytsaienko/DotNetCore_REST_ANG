@@ -49,7 +49,6 @@ namespace TourManagement.API
 
                     var jsonInputFormatter = setupAction.InputFormatters
                         .OfType<JsonInputFormatter>().FirstOrDefault();
-
                     if (jsonInputFormatter != null)
                     {
                         jsonInputFormatter.SupportedMediaTypes
@@ -132,7 +131,7 @@ namespace TourManagement.API
                 config.CreateMap<Entities.Show, Dtos.Show>();
 
                 config.CreateMap<Dtos.TourForCreation, Entities.Tour>();
-                config.CreateMap<Dtos.TourWIthManagerForCreation, Entities.Tour>();
+                config.CreateMap<Dtos.TourWithManagerForCreation, Entities.Tour>();
             });
 
             // Enable CORS

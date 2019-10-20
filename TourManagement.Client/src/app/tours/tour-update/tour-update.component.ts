@@ -18,7 +18,7 @@ export class TourUpdateComponent implements OnInit, OnDestroy {
 
   public tourForm: FormGroup;
   private tour: Tour;
-  private tourId: string;
+  private tourId: number;
   private sub: Subscription;
 
   constructor(private masterDataService: MasterDataService,
@@ -35,7 +35,7 @@ export class TourUpdateComponent implements OnInit, OnDestroy {
       startDate: [],
       endDate: []
     });
- 
+
     // get route data (tourId)
     this.sub = this.route.params.subscribe(
       params => {
@@ -44,8 +44,8 @@ export class TourUpdateComponent implements OnInit, OnDestroy {
         // load tour
         this.tourService.getTour(this.tourId)
           .subscribe(tour => {
-            this.tour = tour;  
-            this.updateTourForm();     
+            this.tour = tour;
+            this.updateTourForm();
           });
       }
     );
@@ -56,7 +56,7 @@ export class TourUpdateComponent implements OnInit, OnDestroy {
   }
 
   private updateTourForm(): void
-  { 
+  {
     let datePipe = new DatePipe(navigator.language);
     let dateFormat = 'yyyy-MM-dd';
 
@@ -69,8 +69,8 @@ export class TourUpdateComponent implements OnInit, OnDestroy {
   }
 
   saveTour(): void {
-    if (this.tourForm.dirty) {       
+    if (this.tourForm.dirty) {
       // TODO
-    } 
+    }
 }
 }

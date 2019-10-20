@@ -11,7 +11,7 @@ export class ShowService extends BaseService {
     super();
   }
 
-  getShows(tourId: string): Observable<Show[]> {
+  getShows(tourId: number): Observable<Show[]> {
     return this.http.get<Show[]>(`${this.apiUrl}/tours/${tourId}/shows`);
   }
 }
