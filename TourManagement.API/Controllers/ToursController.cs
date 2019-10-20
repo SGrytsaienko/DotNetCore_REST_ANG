@@ -28,6 +28,12 @@ namespace TourManagement.API.Controllers
             return Ok(tours);
         }
 
+        [HttpGet("{tourId}")]
+        public async Task<IActionResult> GetDefaultTour(int tourId)
+        {
+            return await GetSpecificTour<Tour>(tourId);
+        }
+
         [HttpGet("{tourId}", Name = "GetTour")]
         [RequestHeaderMatchesMediaType
         ("Accept",
@@ -67,7 +73,11 @@ namespace TourManagement.API.Controllers
 
         [HttpPost]
         [RequestHeaderMatchesMediaType("Content-Type",
-            new[] {"application/vnd.marvin.tourwithmanagerforcreation+json"})]
+            new[]
+            {
+                "application/json",
+                "application/vnd.marvin.tourwithmanagerforcreation+json"
+            })]
         public async Task<IActionResult> AddTourWithManager(
             [FromBody] TourWithManagerForCreation tour)
         {
@@ -84,6 +94,9 @@ namespace TourManagement.API.Controllers
         private async Task<IActionResult> AddSpecificTour<T>(T tour) where T : class
         {
             var tourEntity = Mapper.Map<Entities.Tour>(tour);
+
+            // temp ...
+            tourEntity.ManagerId = 1;
 
             await _tourManagementRepository.AddTour(tourEntity);
 

@@ -66,7 +66,7 @@ export class AppModule {
       .forSourceMember('manager', (opts: AutoMapperJs.ISourceMemberConfigurationOptions) => {
         opts.ignore();
       })
-      .forMember('bandid', opts => {
+      .forMember('bandid', (opts) => {
         opts.mapFrom('band');
       });
 
@@ -77,11 +77,39 @@ export class AppModule {
       .forSourceMember('manager', (opts: AutoMapperJs.ISourceMemberConfigurationOptions) => {
         opts.ignore();
       })
-      .forMember('bandid', opts => {
+      .forMember('bandid', (opts) => {
         opts.mapFrom('band');
       })
-      .forMember('managerid', opts => {
+      .forMember('managerid', (opts) => {
         opts.mapFrom('manager');
+      })
+
+    automapper.createMap('TourFormModel', 'TourWithShowsForCreation')
+      .forSourceMember('band', (opts: AutoMapperJs.ISourceMemberConfigurationOptions) => {
+        opts.ignore();
+      })
+      .forSourceMember('manager', (opts: AutoMapperJs.ISourceMemberConfigurationOptions) => {
+        opts.ignore();
+      })
+      .forMember('bandid', (opts) => {
+        opts.mapFrom('band');
       });
+
+    automapper.createMap('TourFormModel', 'TourWithManagerAndShowsForCreation')
+      .forSourceMember('band', (opts: AutoMapperJs.ISourceMemberConfigurationOptions) => {
+        opts.ignore();
+      })
+      .forSourceMember('manager', (opts: AutoMapperJs.ISourceMemberConfigurationOptions) => {
+        opts.ignore();
+      })
+      .forMember('bandid', (opts) => {
+        opts.mapFrom('band');
+      })
+      .forMember('managerid', (opts) => {
+        opts.mapFrom('manager');
+      })
+
+    automapper.createMap('ShowCollectionFormModelShowsArray',
+      'ShowCollectionForCreation');
   }
 }

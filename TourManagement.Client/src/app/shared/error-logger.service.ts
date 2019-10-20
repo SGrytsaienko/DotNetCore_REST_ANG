@@ -10,6 +10,6 @@ export class ErrorLoggerService {
 
         // add application name, date, ... any useful 
         // additional info to the error message.
-        console.error('An error happened', error);
+        console.error("Pluralsight demo", 'An error happened', error);
     }
 }

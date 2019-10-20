@@ -17,7 +17,7 @@ export class TourDetailComponent implements OnInit, OnDestroy {
   private tour: any;
   private tourId: number;
   private sub: Subscription;
-  private isAdmin: boolean = false;
+  private isAdmin: boolean = true;
 
   constructor(private masterDataService: MasterDataService,
               private tourService: TourService,
