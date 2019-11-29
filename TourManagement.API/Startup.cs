@@ -132,6 +132,12 @@ namespace TourManagement.API
 
                 config.CreateMap<Dtos.TourForCreation, Entities.Tour>();
                 config.CreateMap<Dtos.TourWithManagerForCreation, Entities.Tour>();
+
+                config.CreateMap<Entities.Tour, Dtos.TourWithShows>()
+                    .ForMember(d => d.Band, o => o.MapFrom(s => s.Band.Name));
+
+                config.CreateMap<Entities.Tour, Dtos.TourWithEstimatedProfitsAndShows>()
+                    .ForMember(d => d.Band, o => o.MapFrom(s => s.Band.Name));
             });
 
             // Enable CORS
