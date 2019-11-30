@@ -1,7 +1,6 @@
 namespace TourManagement.API.Dtos
 {
-    public class TourForUpdate
+    public class TourForUpdate : TourAbstractBase
     {
-        
     }
 }

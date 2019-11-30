@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Primitives;
 using TourManagement.API.Dtos;
 using TourManagement.API.Helpers;
@@ -164,6 +165,38 @@ namespace TourManagement.API.Controllers
             // validation here
 
             return await AddSpecificTour(tour);
+        }
+
+        [HttpPatch("{tourId}")]
+        public async Task<IActionResult> PartiallyUpdateTour(int tourId,
+            [FromBody] JsonPatchDocument<TourForUpdate> jsonPatchDocument)
+        {
+            if (jsonPatchDocument == null)
+            {
+                return BadRequest();
+            }
+
+            var tourFromRepo = await _tourManagementRepository.GetTour(tourId);
+
+            if (tourFromRepo == null)
+            {
+                return BadRequest();
+            }
+
+            var tourToPatch = Mapper.Map<TourForUpdate>(tourFromRepo);
+
+            jsonPatchDocument.ApplyTo(tourToPatch);
+
+            Mapper.Map(tourToPatch, tourFromRepo);
+
+            await _tourManagementRepository.UpdateTour(tourFromRepo);
+
+            if (!await _tourManagementRepository.SaveAsync())
+            {
+                throw new Exception("Updating a tour failed on save.");
+            }
+
+            return NoContent();
         }
 
         private async Task<IActionResult> AddSpecificTour<T>(T tour) where T : class

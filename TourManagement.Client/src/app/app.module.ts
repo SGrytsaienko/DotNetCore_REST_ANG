@@ -22,7 +22,7 @@ import {ErrorLoggerService} from './shared/error-logger.service';
 import {HandleHttpErrorInterceptor} from './shared/handle-http-error-interceptor';
 import {WriteOutJsonInterceptor} from './shared/write-out-json-interceptor';
 import {EnsureAcceptHeaderInterceptor} from './shared/ensure-accept-header-interceptor';
-import { ShowSingleComponent } from './tours/shows/show-single/show-single.component';
+import {ShowSingleComponent} from './tours/shows/show-single/show-single.component';
 
 @NgModule({
   declarations: [
@@ -119,5 +119,7 @@ export class AppModule {
 
     automapper.createMap('ShowCollectionFormModelShowsArray',
       'ShowCollectionForCreation');
+
+    automapper.createMap('TourFormModel', 'TourForUpdate');
   }
 }
