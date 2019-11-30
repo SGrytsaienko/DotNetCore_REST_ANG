@@ -1,6 +1,6 @@
 namespace TourManagement.API.Dtos
 {
-    public class ShowForCreation
+    public class ShowForCreation : ShowAbstractBase
     {
         
     }
