@@ -97,13 +97,6 @@ namespace TourManagement.API.Controllers
             })]
         public async Task<IActionResult> AddTour([FromBody] TourForCreation tour)
         {
-            if (tour == null)
-            {
-                return BadRequest();
-            }
-
-            // validation of the DTO happens here
-
             return await AddSpecificTour(tour);
         }
 
@@ -117,13 +110,6 @@ namespace TourManagement.API.Controllers
         public async Task<IActionResult> AddTourWithManager(
             [FromBody] TourWithManagerForCreation tour)
         {
-            if (tour == null)
-            {
-                return BadRequest();
-            }
-
-            // validation of the DTO happens here
-
             return await AddSpecificTour(tour);
         }
 
@@ -137,13 +123,6 @@ namespace TourManagement.API.Controllers
             })]
         public async Task<IActionResult> AddTourWithShows([FromBody] TourWithShowsForCreation tour)
         {
-            if (tour == null)
-            {
-                return BadRequest();
-            }
-
-            // validation here
-
             return await AddSpecificTour(tour);
         }
 
@@ -157,13 +136,6 @@ namespace TourManagement.API.Controllers
             })]
         public async Task<IActionResult> AddTourWithManagerAndShows([FromBody] TourWithManagerAndShowsForCreation tour)
         {
-            if (tour == null)
-            {
-                return BadRequest();
-            }
-
-            // validation here
-
             return await AddSpecificTour(tour);
         }
 
@@ -185,7 +157,17 @@ namespace TourManagement.API.Controllers
 
             var tourToPatch = Mapper.Map<TourForUpdate>(tourFromRepo);
 
-            jsonPatchDocument.ApplyTo(tourToPatch);
+            jsonPatchDocument.ApplyTo(tourToPatch, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            if (!TryValidateModel(tourToPatch))
+            {
+                return BadRequest();
+            }
 
             Mapper.Map(tourToPatch, tourFromRepo);
 
@@ -201,6 +183,16 @@ namespace TourManagement.API.Controllers
 
         private async Task<IActionResult> AddSpecificTour<T>(T tour) where T : class
         {
+            if (tour == null)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             var tourEntity = Mapper.Map<Entities.Tour>(tour);
 
             // temp ...
