@@ -161,12 +161,12 @@ namespace TourManagement.API.Controllers
 
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return UnprocessableEntity();
             }
 
             if (!TryValidateModel(tourToPatch))
             {
-                return BadRequest();
+                return UnprocessableEntity();
             }
 
             Mapper.Map(tourToPatch, tourFromRepo);
@@ -190,7 +190,7 @@ namespace TourManagement.API.Controllers
 
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return new CustomUnprocessableEntityObjectResult(ModelState);
             }
 
             var tourEntity = Mapper.Map<Entities.Tour>(tour);
