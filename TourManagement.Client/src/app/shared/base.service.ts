@@ -13,4 +13,8 @@ export class BaseService {
 
   constructor() { }
 
+  triggerSignIn() {
+
+  }
+
 }

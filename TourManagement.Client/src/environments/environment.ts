@@ -5,5 +5,17 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:51114/api'
+  apiUrl: 'http://localhost:51114/api',
+  // apiUrl: 'https://localhost:44353/api'
+  openIdConnectService: {
+    authority: 'http://localhost:60940/',
+    // authority: 'https://localhost:44398/',
+    client_id: 'tourmanagementclient',
+    redirect_uri: 'http://localhost:4200/signin-oidc',
+    // redirect_uri: 'https://localhost:4200/signin-oidc',
+    scope: 'openid profile roles',
+    response_type: 'id_token',
+    post_logout_redirect_uri: 'http://localhost:4200/'
+    // post_logout_redirect_uri: 'https://localhost:4200/'
+  }
 };

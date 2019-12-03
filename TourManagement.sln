@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourManagement.API", "TourManagement.API\TourManagement.API.csproj", "{3FCC80C2-F531-4E03-BC93-06C709B74F92}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marvin.IDP", "Marvin.IDP\Marvin.IDP.csproj", "{AEF9E7C3-05F9-45E2-B57F-4573C92AB5AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{3FCC80C2-F531-4E03-BC93-06C709B74F92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FCC80C2-F531-4E03-BC93-06C709B74F92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FCC80C2-F531-4E03-BC93-06C709B74F92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEF9E7C3-05F9-45E2-B57F-4573C92AB5AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEF9E7C3-05F9-45E2-B57F-4573C92AB5AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEF9E7C3-05F9-45E2-B57F-4573C92AB5AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEF9E7C3-05F9-45E2-B57F-4573C92AB5AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore;
+﻿using System.Net;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,7 +27,7 @@ namespace TourManagement.API
                 {
                     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
                     logger.LogError(ex, "An error occurred with migrating or seeding the DB.");
-                }               
+                }
             }
 
             // run the web app
@@ -35,6 +36,17 @@ namespace TourManagement.API
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+//                .UseKestrel(options =>
+//                {
+//                    options.Listen(IPAddress.Loopback,
+//                        44353,
+//                        listenOptions =>
+//                        {
+//                            listenOptions
+//                                .UseHttps("localhost.pfx", "pass");
+//                        });
+//                    options.AddServerHeader = false;
+//                })
                 .UseStartup<Startup>()
                 .Build();
     }
