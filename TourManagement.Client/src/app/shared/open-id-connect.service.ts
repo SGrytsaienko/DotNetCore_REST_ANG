@@ -62,4 +62,14 @@ export class OpenIdConnectService {
       }
     })
   }
+
+  handleSilentCallback() {
+    this.userManager.signinSilentCallback().then((user) => {
+      this.currentUser = user;
+      if (!environment.production) {
+        console.log('Callback after silent signin handled. ', user);
+      }
+    })
+  }
+
 }

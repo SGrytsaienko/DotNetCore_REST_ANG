@@ -43,16 +43,17 @@ namespace Marvin.IDP
         {
             return new List<IdentityResource>
             {
-               new IdentityResources.OpenId(),
-               new IdentityResources.Profile(),
-               new IdentityResource("roles", "Your role(s)", new []{"role"}),
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
+                new IdentityResource("roles", "Your role(s)", new[] {"role"}),
             };
         }
 
         internal static IEnumerable<ApiResource> GetApiResources()
         {
-            return new[] {
-                new ApiResource("tourmanagementapi", "Tour Management API", new[] { "role" })  
+            return new[]
+            {
+                new ApiResource("tourmanagementapi", "Tour Management API", new[] {"role"})
             };
         }
 
@@ -63,20 +64,24 @@ namespace Marvin.IDP
                 new Client
                 {
                     ClientName = "Tour Management",
-                    ClientId="tourmanagementclient",
+                    ClientId = "tourmanagementclient",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     RequireConsent = false,
                     AllowAccessTokensViaBrowser = true,
-                    RedirectUris =new List<string>
+                    RedirectUris = new List<string>
                     {
-                        "http://localhost:4200/signin-oidc"
+                        "http://localhost:4200/signin-oidc",
 //                        "https://localhost:4200/signin-oidc"
+                        "http://localhost:4200/redirect-silentrenew"
+//                        "https://localhost:4200/redirect-silentrenew"
                     },
                     AccessTokenLifetime = 180,
-                    PostLogoutRedirectUris = new[]{
-                        "http://localhost:4200/" },
-//                        "https://localhost:4200/" },
-                    AllowedScopes = new []
+                    PostLogoutRedirectUris = new[]
+                    {
+                        "http://localhost:4200/"
+//                        "https://localhost:4200/"
+                    },
+                    AllowedScopes = new[]
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
