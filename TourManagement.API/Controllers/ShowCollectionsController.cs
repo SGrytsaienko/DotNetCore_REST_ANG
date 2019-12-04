@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TourManagement.API.Dtos;
 using TourManagement.API.Helpers;
@@ -12,6 +13,7 @@ using TourManagement.API.Services;
 namespace TourManagement.API.Controllers
 {
     [Route("api/tours/{tourId}/showcollections")]
+    [Authorize]
     public class ShowCollectionsController : Controller
     {
         private readonly ITourManagementRepository _tourManagementRepository;

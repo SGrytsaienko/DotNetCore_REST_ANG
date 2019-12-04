@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.Extensions.Primitives;
 using TourManagement.API.Dtos;
@@ -13,19 +14,39 @@ using TourManagement.API.Services;
 namespace TourManagement.API.Controllers
 {
     [Route("api/tours")]
+    [Authorize]
     public class ToursController : Controller
     {
         private readonly ITourManagementRepository _tourManagementRepository;
+        private readonly IUserInfoService _userInfoService;
 
-        public ToursController(ITourManagementRepository tourManagementRepository)
+        public ToursController(ITourManagementRepository tourManagementRepository, IUserInfoService userInfoService)
         {
             _tourManagementRepository = tourManagementRepository;
+            _userInfoService = userInfoService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetTours()
         {
-            var toursFromRepo = await _tourManagementRepository.GetTours();
+            IEnumerable<Entities.Tour> toursFromRepo = new List<Entities.Tour>();
+
+            if (_userInfoService.Role == "Administrator")
+            {
+                toursFromRepo = await _tourManagementRepository.GetTours();
+            }
+            else
+            {
+                var userId = Int32.Parse(_userInfoService.UserId);
+                
+                // work around for int 
+                if (!(userId > 0))
+                {
+                    return Forbid();
+                }
+
+                toursFromRepo = await _tourManagementRepository.GetToursForManager(userId);
+            }
 
             var tours = Mapper.Map<IEnumerable<Tour>>(toursFromRepo);
             return Ok(tours);
@@ -195,8 +216,10 @@ namespace TourManagement.API.Controllers
 
             var tourEntity = Mapper.Map<Entities.Tour>(tour);
 
-            // temp ...
-            tourEntity.ManagerId = 1;
+            if (!(tourEntity.ManagerId > 0))
+            {
+                return Forbid();
+            }
 
             await _tourManagementRepository.AddTour(tourEntity);
 
