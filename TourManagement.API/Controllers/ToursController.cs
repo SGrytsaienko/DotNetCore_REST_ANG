@@ -38,7 +38,7 @@ namespace TourManagement.API.Controllers
             else
             {
                 var userId = Int32.Parse(_userInfoService.UserId);
-                
+
                 // work around for int 
                 if (!(userId > 0))
                 {
@@ -64,6 +64,7 @@ namespace TourManagement.API.Controllers
         }
 
         [HttpGet("{tourId}", Name = "GetTour")]
+        [Authorize(Policy = "UserMustBeTourManager")]
         [RequestHeaderMatchesMediaType
         ("Accept",
             new string[] {"application/vnd.marvin.tour+json"})]
@@ -78,6 +79,7 @@ namespace TourManagement.API.Controllers
         }
 
         [HttpGet("{tourId}")]
+        [Authorize(Policy = "UserMustBeTourManager")]
         [RequestHeaderMatchesMediaType
         ("Accept",
             new string[] {"application/vnd.marvin.tourwithestimatedprofits+json"})]
@@ -92,6 +94,7 @@ namespace TourManagement.API.Controllers
         }
 
         [HttpGet("{tourId}")]
+        [Authorize(Policy = "UserMustBeTourManager")]
         [RequestHeaderMatchesMediaType
         ("Accept",
             new string[] {"application/vnd.marvin.tourwithshows+json"})]
@@ -101,6 +104,8 @@ namespace TourManagement.API.Controllers
         }
 
         [HttpGet("{tourId}")]
+        [Authorize(Policy = "UserMustBeTourManager")]
+        [Authorize(Policy = "UserMustBeAdministrator")]
         [RequestHeaderMatchesMediaType
         ("Accept",
             new string[] {"application/vnd.marvin.tourwithestimatedprofitsandshows+json"})]

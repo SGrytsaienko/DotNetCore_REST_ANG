@@ -9,6 +9,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Linq;
 using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authorization;
+using TourManagement.API.Authorization;
 using TourManagement.API.Services;
 
 namespace TourManagement.API
@@ -25,6 +27,23 @@ namespace TourManagement.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("UserMustBeAdministrator", policyBuilder =>
+                {
+                    policyBuilder.RequireAuthenticatedUser();
+                    policyBuilder.RequireRole("Administrator");
+                });
+                options.AddPolicy("UserMustBeTourManager",
+                    policyBuilder =>
+                    {
+                        policyBuilder.RequireAuthenticatedUser();
+                        policyBuilder.AddRequirements(new UserMustBeTourManagerRequirement("Administrator"));
+                    });
+            });
+
+            services.AddScoped<IAuthorizationHandler, UserMustBeTourManagerRequirementHandler>();
+
             services.AddMvc(setupAction =>
                 {
                     setupAction.ReturnHttpNotAcceptable = true;
